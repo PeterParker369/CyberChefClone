@@ -175,7 +175,7 @@ dotnet build
 dotnet run
 
 #Open in browser
-#https://localhost:5001
+https://localhost:5001
 </code></pre>
 
 <h2 id="development">💻 Development</h2>
