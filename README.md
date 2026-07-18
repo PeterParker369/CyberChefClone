@@ -33,7 +33,7 @@
   <strong>CyberChef Clone</strong> is a web application that provides a user-friendly interface for performing various "cyber" operations on data. It combines the power of a C# backend with a sleek, modern frontend to deliver a seamless experience for both technical and non-technical users.
 </p>
 
-<p align="center">![alt text](https://github.com/PeterParker369/CyberChefClone/blob/main/Assets/screen.png)</p>
+<p align="center">![Screen CyberChefClone](https://raw.githubusercontent.com/PeterParker369/CyberChefClone/main/Assets/screen.png)</p>
 
 <br>
 
