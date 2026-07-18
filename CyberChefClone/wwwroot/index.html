@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberChef Clone</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1>🧑‍🍳 CyberChef Clone</h1>
+                    <p>Automatic execution on change</p>
+                </div>
+                <div class="theme-selector">
+                    <label for="themeSelect">🎨 Theme:</label>
+                    <select id="themeSelect">
+                        <option value="default">🌙 Default</option>
+                        <option value="cyberpunk">💜 Cyberpunk</option>
+                        <option value="ocean">🌊 Ocean</option>
+                        <option value="sunset">🌅 Sunset</option>
+                        <option value="space">🌌 Space</option>
+                        <option value="matrix">💚 Matrix</option>
+                        <option value="mint">🌿 Mint</option>
+                        <option value="lavender">🌸 Lavender</option>
+                        <option value="sakura">🌸 Sakura</option>
+                        <option value="forest">🌲 Forest</option>
+                        <option value="gold">✨ Gold</option>
+                        <option value="night">🌙 Night</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <!-- Left panel: Operations -->
+            <div class="operations-panel">
+                <h3>Operations</h3>
+                <input type="text" id="searchOperations" placeholder="Search...">
+                <div id="operationsList"></div>
+            </div>
+
+            <!-- Center: Recipe -->
+            <div class="recipe-panel">
+                <div class="recipe-header">
+                    <h3>Recipe</h3>
+                    <div class="recipe-controls">
+                        <button id="clearRecipeBtn" class="clear-btn">🗑️ Clear</button>
+                        <div class="auto-bake-toggle">
+                            <label class="switch">
+                                <input type="checkbox" id="autoBakeToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span id="autoBakeLabel">Auto</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="recipeList" class="recipe-list"></div>
+            </div>
+
+            <!-- Right panel: Input/Output -->
+            <div class="io-panel">
+                <div class="input-area">
+                    <h3>📥 Input</h3>
+                    <textarea id="inputData" placeholder="Enter data or load a file..."></textarea>
+                    <div class="input-controls">
+                        <input type="file" id="fileInput" style="display:none">
+                        <button id="loadFileBtn">📁 Load</button>
+                        <button id="clearInputBtn">🗑️ Clear</button>
+                    </div>
+                </div>
+
+                <div class="output-area">
+                    <h3>📤 Output</h3>
+                    <textarea id="outputData" readonly placeholder="Result will appear here automatically..."></textarea>
+                    <div class="output-controls">
+                        <button id="copyOutputBtn">📋 Copy</button>
+                        <button id="saveOutputBtn">💾 Save</button>
+                        <button id="clearOutputBtn">🗑️ Clear</button>
+                        <button id="executeBtn" class="execute-btn" style="display:none;">▶ Execute</button>
+                    </div>
+                </div>
+
+                <div id="executionLog" class="log-area"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

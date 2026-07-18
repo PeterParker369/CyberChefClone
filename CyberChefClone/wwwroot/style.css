@@ -1,0 +1,2586 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: #eee;
+    height: 100vh;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+    /* ===== GLASSMORPHISM EFFECT ===== */
+
+    /* Background orbs - always visible */
+    body::before,
+    body::after {
+        content: '';
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.5;
+        z-index: 0;
+        animation: floatBubbles 15s ease-in-out infinite alternate;
+        pointer-events: none;
+    }
+
+    body::before {
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, #e94560, transparent 70%);
+        top: -100px;
+        right: -100px;
+        animation-delay: 0s;
+    }
+
+    body::after {
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, #4fc3f7, transparent 70%);
+        bottom: -150px;
+        left: -150px;
+        animation-delay: -5s;
+    }
+
+/* Additional floating orbs */
+.glass-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.3;
+    z-index: 0;
+    animation: floatOrbs 20s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+    .glass-orb:nth-of-type(1) {
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, #ff6b35, transparent 70%);
+        top: 20%;
+        left: 5%;
+        animation-delay: -3s;
+    }
+
+    .glass-orb:nth-of-type(2) {
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, #9c27b0, transparent 70%);
+        bottom: 10%;
+        right: 10%;
+        animation-delay: -8s;
+    }
+
+    .glass-orb:nth-of-type(3) {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, #00ff41, transparent 70%);
+        top: 50%;
+        left: 50%;
+        animation-delay: -12s;
+    }
+
+/* Shine effect */
+.glass-shine {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+    animation: shineMove 25s ease-in-out infinite alternate;
+}
+
+@keyframes floatBubbles {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(50px, 30px) scale(1.2);
+    }
+}
+
+@keyframes floatOrbs {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    33% {
+        transform: translate(40px, -30px) scale(1.1) rotate(120deg);
+    }
+
+    66% {
+        transform: translate(-30px, 40px) scale(0.9) rotate(240deg);
+    }
+
+    100% {
+        transform: translate(30px, -20px) scale(1.05) rotate(360deg);
+    }
+}
+
+@keyframes shineMove {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(10%, 5%) rotate(5deg);
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== GLASS PANELS ===== */
+
+header {
+    background: rgba(22, 33, 62, 0.65) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    color: #e94560;
+    font-size: 20px;
+    text-shadow: 0 0 30px rgba(233, 69, 96, 0.3);
+}
+
+header p {
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 1px;
+}
+
+.theme-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .theme-selector label {
+        color: #aaa;
+        font-size: 12px;
+    }
+
+    .theme-selector select {
+        padding: 4px 10px;
+        background: rgba(26, 26, 46, 0.6);
+        backdrop-filter: blur(10px) saturate(150%);
+        -webkit-backdrop-filter: blur(10px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #eee;
+        border-radius: 4px;
+        font-size: 12px;
+        cursor: pointer;
+        height: 28px;
+        transition: all 0.3s ease;
+    }
+
+        .theme-selector select:hover {
+            border-color: #e94560;
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.15);
+        }
+
+        .theme-selector select:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+
+/* ===== MAIN LAYOUT ===== */
+.main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* ===== LEFT PANEL ===== */
+.operations-panel {
+    width: 230px;
+    min-width: 160px;
+    background: rgba(22, 33, 62, 0.55) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 10px;
+    overflow-y: auto;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+    .operations-panel h3 {
+        margin-bottom: 6px;
+        color: #e94560;
+        font-size: 13px;
+        text-shadow: 0 0 20px rgba(233, 69, 96, 0.2);
+    }
+
+#searchOperations {
+    width: 100%;
+    padding: 4px 8px;
+    background: rgba(26, 26, 46, 0.5);
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #eee;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    height: 24px;
+    transition: all 0.3s ease;
+}
+
+    #searchOperations:focus {
+        outline: none;
+        border-color: rgba(233, 69, 96, 0.5);
+        box-shadow: 0 0 20px rgba(233, 69, 96, 0.1);
+    }
+
+.operation-category {
+    margin-bottom: 8px;
+}
+
+.category-title {
+    font-size: 10px;
+    font-weight: bold;
+    color: #e94560;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+}
+
+.operation-item {
+    padding: 3px 8px;
+    background: rgba(26, 26, 46, 0.4) !important;
+    backdrop-filter: blur(5px) saturate(120%);
+    -webkit-backdrop-filter: blur(5px) saturate(120%);
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 2px solid transparent;
+}
+
+    .operation-item:hover {
+        background: rgba(15, 52, 96, 0.5) !important;
+        border-left-color: #e94560;
+        border-color: rgba(233, 69, 96, 0.2);
+        transform: translateX(3px);
+    }
+
+.op-name {
+    font-size: 12px;
+    display: block;
+    font-weight: 500;
+}
+
+.op-desc {
+    font-size: 9px;
+    color: #888;
+    display: block;
+    margin-top: 0;
+}
+
+/* ===== CENTER PANEL ===== */
+.recipe-panel {
+    width: 280px;
+    min-width: 200px;
+    background: rgba(22, 33, 62, 0.55) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.recipe-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+}
+
+.recipe-panel h3 {
+    color: #e94560;
+    font-size: 13px;
+    margin: 0;
+}
+
+.recipe-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.clear-btn {
+    padding: 2px 10px;
+    background: rgba(26, 26, 46, 0.5) !important;
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #eee;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 11px;
+    white-space: nowrap;
+    height: 22px;
+}
+
+    .clear-btn:hover {
+        background: rgba(233, 69, 96, 0.2) !important;
+        border-color: rgba(233, 69, 96, 0.3);
+        transform: translateY(-1px);
+    }
+
+.recipe-list {
+    flex: 1;
+    overflow-y: auto;
+    background: rgba(26, 26, 46, 0.25);
+    backdrop-filter: blur(5px) saturate(120%);
+    -webkit-backdrop-filter: blur(5px) saturate(120%);
+    border-radius: 4px;
+    padding: 6px;
+    min-height: 80px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.empty-recipe {
+    color: #555;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 13px;
+}
+
+.recipe-step {
+    background: rgba(26, 26, 46, 0.4) !important;
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    padding: 6px 8px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 4px;
+    position: relative;
+    animation: slideIn 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+    .recipe-step:hover {
+        background: rgba(15, 52, 96, 0.5) !important;
+        border-color: rgba(233, 69, 96, 0.2);
+    }
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step-number {
+    color: #e94560;
+    font-weight: bold;
+    margin-right: 6px;
+    font-size: 11px;
+}
+
+.step-name {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.remove-step {
+    position: absolute;
+    right: 6px;
+    top: 4px;
+    background: none;
+    border: none;
+    color: #e94560;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+    .remove-step:hover {
+        transform: scale(1.2);
+    }
+
+/* ===== PARAMETERS ===== */
+.step-params {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+}
+
+    .step-params label {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        width: 100%;
+        font-size: 10px;
+        color: #aaa;
+        min-height: 20px;
+    }
+
+        .step-params label .param-label {
+            min-width: 80px;
+            flex-shrink: 0;
+            font-size: 10px;
+            color: #aaa;
+            white-space: nowrap;
+            text-align: left;
+        }
+
+    .step-params input[type="text"],
+    .step-params input[type="number"],
+    .step-params select {
+        flex: 1;
+        min-width: 0;
+        padding: 2px 6px;
+        background: rgba(26, 26, 46, 0.5) !important;
+        backdrop-filter: blur(5px) saturate(120%);
+        -webkit-backdrop-filter: blur(5px) saturate(120%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #eee;
+        border-radius: 3px;
+        font-size: 10px;
+        box-sizing: border-box;
+        height: 20px;
+        transition: all 0.3s ease;
+    }
+
+        .step-params input[type="text"]:focus,
+        .step-params input[type="number"]:focus,
+        .step-params select:focus {
+            outline: none;
+            border-color: rgba(233, 69, 96, 0.5);
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.1);
+        }
+
+    .step-params select {
+        cursor: pointer;
+        padding: 1px 4px;
+    }
+
+        .step-params select option {
+            background: #1a1a2e;
+            color: #eee;
+        }
+
+    .step-params input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        accent-color: #e94560;
+        cursor: pointer;
+    }
+
+    .step-params label:has(input[type="checkbox"]) {
+        gap: 4px;
+    }
+
+        .step-params label:has(input[type="checkbox"]) .param-label {
+            min-width: auto;
+        }
+
+/* ===== AUTO-BAKE TOGGLE ===== */
+.auto-bake-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+    .auto-bake-toggle .switch {
+        position: relative;
+        display: inline-block;
+        width: 30px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+        .auto-bake-toggle .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .auto-bake-toggle .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(15, 52, 96, 0.5) !important;
+        backdrop-filter: blur(5px) saturate(120%);
+        -webkit-backdrop-filter: blur(5px) saturate(120%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: .3s;
+        border-radius: 34px;
+    }
+
+        .auto-bake-toggle .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 3px;
+            bottom: 3px;
+            background-color: #555;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+    .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(233, 69, 96, 0.6) !important;
+    }
+
+        .auto-bake-toggle input:checked + .slider:before {
+            transform: translateX(12px);
+            background-color: #fff;
+        }
+
+#autoBakeLabel {
+    font-size: 11px;
+    color: #aaa;
+    user-select: none;
+    white-space: nowrap;
+    min-width: 28px;
+    transition: color 0.3s;
+}
+
+    #autoBakeLabel.active {
+        color: #4ade80;
+    }
+
+    #autoBakeLabel.inactive {
+        color: #f87171;
+    }
+
+/* ===== RIGHT PANEL ===== */
+.io-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: rgba(26, 26, 46, 0.55) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    min-width: 280px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+    .io-panel h3 {
+        color: #e94560;
+        font-size: 12px;
+        margin-bottom: 3px;
+        flex-shrink: 0;
+    }
+
+.input-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4px;
+    min-height: 30%;
+}
+
+    .input-area textarea {
+        flex: 1;
+        background: rgba(26, 26, 46, 0.5) !important;
+        backdrop-filter: blur(5px) saturate(120%);
+        -webkit-backdrop-filter: blur(5px) saturate(120%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #eee;
+        padding: 6px;
+        border-radius: 3px;
+        resize: vertical;
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 12px;
+        min-height: 60px;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+        .input-area textarea:focus {
+            outline: none;
+            border-color: rgba(233, 69, 96, 0.5);
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.1);
+        }
+
+.input-controls {
+    display: flex;
+    gap: 4px;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+    .input-controls button {
+        padding: 2px 10px;
+        background: rgba(15, 52, 96, 0.5) !important;
+        backdrop-filter: blur(10px) saturate(150%);
+        -webkit-backdrop-filter: blur(10px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #eee;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 11px;
+        transition: all 0.3s ease;
+        height: 22px;
+    }
+
+        .input-controls button:hover {
+            background: rgba(233, 69, 96, 0.2) !important;
+            border-color: rgba(233, 69, 96, 0.3);
+            transform: translateY(-1px);
+        }
+
+.output-area {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    min-height: 35%;
+}
+
+    .output-area textarea {
+        flex: 1;
+        background: rgba(26, 26, 46, 0.5) !important;
+        backdrop-filter: blur(5px) saturate(120%);
+        -webkit-backdrop-filter: blur(5px) saturate(120%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #eee;
+        padding: 6px;
+        border-radius: 3px;
+        resize: vertical;
+        font-family: 'Consolas', 'Courier New', monospace;
+        font-size: 12px;
+        min-height: 80px;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+        .output-area textarea:focus {
+            outline: none;
+            border-color: rgba(233, 69, 96, 0.5);
+            box-shadow: 0 0 20px rgba(233, 69, 96, 0.1);
+        }
+
+.output-controls {
+    display: flex;
+    gap: 4px;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+    .output-controls button {
+        padding: 2px 10px;
+        background: rgba(15, 52, 96, 0.5) !important;
+        backdrop-filter: blur(10px) saturate(150%);
+        -webkit-backdrop-filter: blur(10px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #eee;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 11px;
+        transition: all 0.3s ease;
+        height: 22px;
+    }
+
+        .output-controls button:hover {
+            background: rgba(233, 69, 96, 0.2) !important;
+            border-color: rgba(233, 69, 96, 0.3);
+            transform: translateY(-1px);
+        }
+
+.execute-btn {
+    background: rgba(233, 69, 96, 0.3) !important;
+    border-color: rgba(233, 69, 96, 0.3) !important;
+    font-weight: bold;
+}
+
+    .execute-btn:hover {
+        background: rgba(233, 69, 96, 0.5) !important;
+    }
+
+.log-area {
+    margin-top: 3px;
+    max-height: 60px;
+    overflow-y: auto;
+    background: rgba(15, 15, 31, 0.5) !important;
+    backdrop-filter: blur(10px) saturate(150%);
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.log-entry {
+    padding: 1px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+    .log-entry.success {
+        color: #4ade80;
+    }
+
+    .log-entry.error {
+        color: #f87171;
+    }
+
+    .log-entry.info {
+        color: #60a5fa;
+    }
+
+/* ===== SCROLLBARS ===== */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(26, 26, 46, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(233, 69, 96, 0.3);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(233, 69, 96, 0.6);
+    }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+    .operations-panel {
+        width: 180px;
+        min-width: 130px;
+    }
+
+    .recipe-panel {
+        width: 220px;
+        min-width: 160px;
+    }
+}
+
+@media (max-width: 800px) {
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .operations-panel,
+    .recipe-panel {
+        width: 100%;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        max-height: 180px;
+    }
+
+    .io-panel {
+        min-width: unset;
+    }
+}
+
+/* ===== THEMES (with glassmorphism) ===== */
+
+/* Cyberpunk */
+body.theme-cyberpunk {
+    background: linear-gradient(135deg, #0a0a0f, #1a0a2e, #0a0a0f) !important;
+}
+
+    body.theme-cyberpunk header {
+        background: rgba(26, 10, 46, 0.7) !important;
+        border-bottom: 1px solid rgba(255, 0, 255, 0.2);
+    }
+
+        body.theme-cyberpunk header h1 {
+            color: #ff00ff;
+            text-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+        }
+
+        body.theme-cyberpunk header p {
+            color: #00ffcc;
+        }
+
+    body.theme-cyberpunk .operations-panel,
+    body.theme-cyberpunk .recipe-panel {
+        background: rgba(15, 10, 26, 0.7) !important;
+        border-right: 1px solid rgba(255, 0, 255, 0.15);
+    }
+
+    body.theme-cyberpunk .io-panel {
+        background: rgba(10, 10, 15, 0.7) !important;
+    }
+
+        body.theme-cyberpunk .recipe-panel h3,
+        body.theme-cyberpunk .operations-panel h3,
+        body.theme-cyberpunk .io-panel h3 {
+            color: #ff00ff;
+        }
+
+    body.theme-cyberpunk .operation-item {
+        background: rgba(26, 10, 46, 0.4) !important;
+        border-left: 2px solid rgba(255, 0, 255, 0.15);
+    }
+
+        body.theme-cyberpunk .operation-item:hover {
+            background: rgba(42, 26, 62, 0.5) !important;
+            border-left-color: #ff00ff;
+        }
+
+    body.theme-cyberpunk .op-name {
+        color: #00ffcc;
+    }
+
+    body.theme-cyberpunk .op-desc {
+        color: #8888aa;
+    }
+
+    body.theme-cyberpunk .recipe-step {
+        background: rgba(26, 10, 46, 0.4) !important;
+        border: 1px solid rgba(255, 0, 255, 0.1);
+    }
+
+        body.theme-cyberpunk .recipe-step:hover {
+            background: rgba(42, 26, 62, 0.5) !important;
+            border-color: rgba(255, 0, 255, 0.2);
+        }
+
+    body.theme-cyberpunk .step-number {
+        color: #ff00ff;
+    }
+
+    body.theme-cyberpunk .step-name {
+        color: #00ffcc;
+    }
+
+    body.theme-cyberpunk .step-params label {
+        color: #8888aa;
+    }
+
+        body.theme-cyberpunk .step-params label .param-label {
+            color: #8888aa;
+        }
+
+    body.theme-cyberpunk .step-params input[type="text"],
+    body.theme-cyberpunk .step-params input[type="number"],
+    body.theme-cyberpunk .step-params select {
+        background: rgba(10, 10, 26, 0.5) !important;
+        border: 1px solid rgba(255, 0, 255, 0.1);
+        color: #00ffcc;
+    }
+
+        body.theme-cyberpunk .step-params input[type="text"]:focus,
+        body.theme-cyberpunk .step-params input[type="number"]:focus,
+        body.theme-cyberpunk .step-params select:focus {
+            border-color: rgba(255, 0, 255, 0.4);
+        }
+
+    body.theme-cyberpunk .input-area textarea,
+    body.theme-cyberpunk .output-area textarea {
+        background: rgba(10, 10, 26, 0.5) !important;
+        border: 1px solid rgba(255, 0, 255, 0.1);
+        color: #00ffcc;
+    }
+
+    body.theme-cyberpunk .clear-btn {
+        background: rgba(26, 10, 46, 0.5) !important;
+        border: 1px solid rgba(255, 0, 255, 0.1);
+        color: #ff00ff;
+    }
+
+        body.theme-cyberpunk .clear-btn:hover {
+            background: rgba(42, 26, 62, 0.6) !important;
+        }
+
+    body.theme-cyberpunk button {
+        background: rgba(26, 10, 46, 0.5) !important;
+        border: 1px solid rgba(255, 0, 255, 0.1);
+        color: #00ffcc;
+    }
+
+        body.theme-cyberpunk button:hover {
+            background: rgba(42, 26, 62, 0.6) !important;
+        }
+
+    body.theme-cyberpunk .auto-bake-toggle .slider {
+        background-color: rgba(26, 10, 46, 0.5) !important;
+        border: 1px solid rgba(255, 0, 255, 0.1);
+    }
+
+    body.theme-cyberpunk .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(255, 0, 255, 0.5) !important;
+    }
+
+    body.theme-cyberpunk .log-area {
+        background: rgba(10, 10, 26, 0.4) !important;
+        border: 1px solid rgba(255, 0, 255, 0.1);
+    }
+
+    body.theme-cyberpunk .log-entry.success {
+        color: #00ffcc;
+    }
+
+    body.theme-cyberpunk .log-entry.error {
+        color: #ff00ff;
+    }
+
+    body.theme-cyberpunk .log-entry.info {
+        color: #8888ff;
+    }
+
+    body.theme-cyberpunk ::-webkit-scrollbar-thumb {
+        background: rgba(255, 0, 255, 0.3);
+    }
+
+        body.theme-cyberpunk ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 0, 255, 0.6);
+        }
+
+    body.theme-cyberpunk .theme-selector select {
+        background: rgba(10, 10, 26, 0.5) !important;
+        border-color: rgba(255, 0, 255, 0.1);
+        color: #00ffcc;
+    }
+
+/* Ocean */
+body.theme-ocean {
+    background: linear-gradient(135deg, #0d1b2a, #1b2f45, #0d1b2a) !important;
+}
+
+    body.theme-ocean header {
+        background: rgba(27, 47, 69, 0.7) !important;
+        border-bottom: 1px solid rgba(79, 195, 247, 0.2);
+    }
+
+        body.theme-ocean header h1 {
+            color: #4fc3f7;
+            text-shadow: 0 0 30px rgba(79, 195, 247, 0.3);
+        }
+
+        body.theme-ocean header p {
+            color: #81d4fa;
+        }
+
+    body.theme-ocean .operations-panel,
+    body.theme-ocean .recipe-panel {
+        background: rgba(15, 31, 47, 0.7) !important;
+        border-right: 1px solid rgba(79, 195, 247, 0.15);
+    }
+
+    body.theme-ocean .io-panel {
+        background: rgba(13, 27, 42, 0.7) !important;
+    }
+
+        body.theme-ocean .recipe-panel h3,
+        body.theme-ocean .operations-panel h3,
+        body.theme-ocean .io-panel h3 {
+            color: #4fc3f7;
+        }
+
+    body.theme-ocean .operation-item {
+        background: rgba(27, 47, 69, 0.4) !important;
+        border-left: 2px solid rgba(79, 195, 247, 0.15);
+    }
+
+        body.theme-ocean .operation-item:hover {
+            background: rgba(42, 64, 85, 0.5) !important;
+            border-left-color: #4fc3f7;
+        }
+
+    body.theme-ocean .op-name {
+        color: #81d4fa;
+    }
+
+    body.theme-ocean .op-desc {
+        color: #90a4ae;
+    }
+
+    body.theme-ocean .recipe-step {
+        background: rgba(27, 47, 69, 0.4) !important;
+        border: 1px solid rgba(79, 195, 247, 0.1);
+    }
+
+        body.theme-ocean .recipe-step:hover {
+            background: rgba(42, 64, 85, 0.5) !important;
+        }
+
+    body.theme-ocean .step-number {
+        color: #4fc3f7;
+    }
+
+    body.theme-ocean .step-name {
+        color: #81d4fa;
+    }
+
+    body.theme-ocean .step-params label {
+        color: #90a4ae;
+    }
+
+        body.theme-ocean .step-params label .param-label {
+            color: #90a4ae;
+        }
+
+    body.theme-ocean .step-params input[type="text"],
+    body.theme-ocean .step-params input[type="number"],
+    body.theme-ocean .step-params select {
+        background: rgba(13, 27, 42, 0.5) !important;
+        border: 1px solid rgba(79, 195, 247, 0.1);
+        color: #e0e8f0;
+    }
+
+        body.theme-ocean .step-params input[type="text"]:focus,
+        body.theme-ocean .step-params input[type="number"]:focus,
+        body.theme-ocean .step-params select:focus {
+            border-color: rgba(79, 195, 247, 0.4);
+        }
+
+    body.theme-ocean .input-area textarea,
+    body.theme-ocean .output-area textarea {
+        background: rgba(13, 27, 42, 0.5) !important;
+        border: 1px solid rgba(79, 195, 247, 0.1);
+        color: #e0e8f0;
+    }
+
+    body.theme-ocean .clear-btn {
+        background: rgba(27, 47, 69, 0.5) !important;
+        border: 1px solid rgba(79, 195, 247, 0.1);
+        color: #4fc3f7;
+    }
+
+        body.theme-ocean .clear-btn:hover {
+            background: rgba(42, 64, 85, 0.6) !important;
+        }
+
+    body.theme-ocean button {
+        background: rgba(27, 47, 69, 0.5) !important;
+        border: 1px solid rgba(79, 195, 247, 0.1);
+        color: #81d4fa;
+    }
+
+        body.theme-ocean button:hover {
+            background: rgba(42, 64, 85, 0.6) !important;
+        }
+
+    body.theme-ocean .auto-bake-toggle .slider {
+        background-color: rgba(27, 47, 69, 0.5) !important;
+        border: 1px solid rgba(79, 195, 247, 0.1);
+    }
+
+    body.theme-ocean .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(79, 195, 247, 0.5) !important;
+    }
+
+    body.theme-ocean .log-area {
+        background: rgba(13, 27, 42, 0.4) !important;
+        border: 1px solid rgba(79, 195, 247, 0.1);
+    }
+
+    body.theme-ocean .log-entry.success {
+        color: #4fc3f7;
+    }
+
+    body.theme-ocean .log-entry.error {
+        color: #ef5350;
+    }
+
+    body.theme-ocean .log-entry.info {
+        color: #81d4fa;
+    }
+
+    body.theme-ocean ::-webkit-scrollbar-thumb {
+        background: rgba(79, 195, 247, 0.3);
+    }
+
+        body.theme-ocean ::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 195, 247, 0.6);
+        }
+
+    body.theme-ocean .theme-selector select {
+        background: rgba(13, 27, 42, 0.5) !important;
+        border-color: rgba(79, 195, 247, 0.1);
+        color: #e0e8f0;
+    }
+
+/* Sunset */
+body.theme-sunset {
+    background: linear-gradient(135deg, #1a0f0a, #2a1a0f, #1a0f0a) !important;
+}
+
+    body.theme-sunset header {
+        background: rgba(42, 26, 15, 0.7) !important;
+        border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+    }
+
+        body.theme-sunset header h1 {
+            color: #ff6b35;
+            text-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+        }
+
+        body.theme-sunset header p {
+            color: #ff8a65;
+        }
+
+    body.theme-sunset .operations-panel,
+    body.theme-sunset .recipe-panel {
+        background: rgba(31, 15, 10, 0.7) !important;
+        border-right: 1px solid rgba(255, 107, 53, 0.15);
+    }
+
+    body.theme-sunset .io-panel {
+        background: rgba(26, 15, 10, 0.7) !important;
+    }
+
+        body.theme-sunset .recipe-panel h3,
+        body.theme-sunset .operations-panel h3,
+        body.theme-sunset .io-panel h3 {
+            color: #ff6b35;
+        }
+
+    body.theme-sunset .operation-item {
+        background: rgba(42, 26, 15, 0.4) !important;
+        border-left: 2px solid rgba(255, 107, 53, 0.15);
+    }
+
+        body.theme-sunset .operation-item:hover {
+            background: rgba(58, 42, 31, 0.5) !important;
+            border-left-color: #ff6b35;
+        }
+
+    body.theme-sunset .op-name {
+        color: #ff8a65;
+    }
+
+    body.theme-sunset .op-desc {
+        color: #a09080;
+    }
+
+    body.theme-sunset .recipe-step {
+        background: rgba(42, 26, 15, 0.4) !important;
+        border: 1px solid rgba(255, 107, 53, 0.1);
+    }
+
+        body.theme-sunset .recipe-step:hover {
+            background: rgba(58, 42, 31, 0.5) !important;
+        }
+
+    body.theme-sunset .step-number {
+        color: #ff6b35;
+    }
+
+    body.theme-sunset .step-name {
+        color: #ff8a65;
+    }
+
+    body.theme-sunset .step-params label {
+        color: #a09080;
+    }
+
+        body.theme-sunset .step-params label .param-label {
+            color: #a09080;
+        }
+
+    body.theme-sunset .step-params input[type="text"],
+    body.theme-sunset .step-params input[type="number"],
+    body.theme-sunset .step-params select {
+        background: rgba(26, 15, 10, 0.5) !important;
+        border: 1px solid rgba(255, 107, 53, 0.1);
+        color: #f0d8c8;
+    }
+
+        body.theme-sunset .step-params input[type="text"]:focus,
+        body.theme-sunset .step-params input[type="number"]:focus,
+        body.theme-sunset .step-params select:focus {
+            border-color: rgba(255, 107, 53, 0.4);
+        }
+
+    body.theme-sunset .input-area textarea,
+    body.theme-sunset .output-area textarea {
+        background: rgba(26, 15, 10, 0.5) !important;
+        border: 1px solid rgba(255, 107, 53, 0.1);
+        color: #f0d8c8;
+    }
+
+    body.theme-sunset .clear-btn {
+        background: rgba(42, 26, 15, 0.5) !important;
+        border: 1px solid rgba(255, 107, 53, 0.1);
+        color: #ff6b35;
+    }
+
+        body.theme-sunset .clear-btn:hover {
+            background: rgba(58, 42, 31, 0.6) !important;
+        }
+
+    body.theme-sunset button {
+        background: rgba(42, 26, 15, 0.5) !important;
+        border: 1px solid rgba(255, 107, 53, 0.1);
+        color: #ff8a65;
+    }
+
+        body.theme-sunset button:hover {
+            background: rgba(58, 42, 31, 0.6) !important;
+        }
+
+    body.theme-sunset .auto-bake-toggle .slider {
+        background-color: rgba(42, 26, 15, 0.5) !important;
+        border: 1px solid rgba(255, 107, 53, 0.1);
+    }
+
+    body.theme-sunset .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(255, 107, 53, 0.5) !important;
+    }
+
+    body.theme-sunset .log-area {
+        background: rgba(26, 15, 10, 0.4) !important;
+        border: 1px solid rgba(255, 107, 53, 0.1);
+    }
+
+    body.theme-sunset .log-entry.success {
+        color: #ff8a65;
+    }
+
+    body.theme-sunset .log-entry.error {
+        color: #ff6b35;
+    }
+
+    body.theme-sunset .log-entry.info {
+        color: #ffab91;
+    }
+
+    body.theme-sunset ::-webkit-scrollbar-thumb {
+        background: rgba(255, 107, 53, 0.3);
+    }
+
+        body.theme-sunset ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 107, 53, 0.6);
+        }
+
+    body.theme-sunset .theme-selector select {
+        background: rgba(26, 15, 10, 0.5) !important;
+        border-color: rgba(255, 107, 53, 0.1);
+        color: #f0d8c8;
+    }
+
+/* Space */
+body.theme-space {
+    background: linear-gradient(135deg, #0a0610, #140820, #0a0610) !important;
+}
+
+    body.theme-space header {
+        background: rgba(20, 8, 32, 0.7) !important;
+        border-bottom: 1px solid rgba(156, 39, 176, 0.2);
+    }
+
+        body.theme-space header h1 {
+            color: #9c27b0;
+            text-shadow: 0 0 30px rgba(156, 39, 176, 0.3);
+        }
+
+        body.theme-space header p {
+            color: #b39ddb;
+        }
+
+    body.theme-space .operations-panel,
+    body.theme-space .recipe-panel {
+        background: rgba(15, 8, 24, 0.7) !important;
+        border-right: 1px solid rgba(156, 39, 176, 0.15);
+    }
+
+    body.theme-space .io-panel {
+        background: rgba(10, 6, 16, 0.7) !important;
+    }
+
+        body.theme-space .recipe-panel h3,
+        body.theme-space .operations-panel h3,
+        body.theme-space .io-panel h3 {
+            color: #9c27b0;
+        }
+
+    body.theme-space .operation-item {
+        background: rgba(20, 8, 32, 0.4) !important;
+        border-left: 2px solid rgba(156, 39, 176, 0.15);
+    }
+
+        body.theme-space .operation-item:hover {
+            background: rgba(36, 16, 48, 0.5) !important;
+            border-left-color: #9c27b0;
+        }
+
+    body.theme-space .op-name {
+        color: #b39ddb;
+    }
+
+    body.theme-space .op-desc {
+        color: #7a6a8a;
+    }
+
+    body.theme-space .recipe-step {
+        background: rgba(20, 8, 32, 0.4) !important;
+        border: 1px solid rgba(156, 39, 176, 0.1);
+    }
+
+        body.theme-space .recipe-step:hover {
+            background: rgba(36, 16, 48, 0.5) !important;
+        }
+
+    body.theme-space .step-number {
+        color: #9c27b0;
+    }
+
+    body.theme-space .step-name {
+        color: #b39ddb;
+    }
+
+    body.theme-space .step-params label {
+        color: #7a6a8a;
+    }
+
+        body.theme-space .step-params label .param-label {
+            color: #7a6a8a;
+        }
+
+    body.theme-space .step-params input[type="text"],
+    body.theme-space .step-params input[type="number"],
+    body.theme-space .step-params select {
+        background: rgba(10, 6, 16, 0.5) !important;
+        border: 1px solid rgba(156, 39, 176, 0.1);
+        color: #c8b8e8;
+    }
+
+        body.theme-space .step-params input[type="text"]:focus,
+        body.theme-space .step-params input[type="number"]:focus,
+        body.theme-space .step-params select:focus {
+            border-color: rgba(156, 39, 176, 0.4);
+        }
+
+    body.theme-space .input-area textarea,
+    body.theme-space .output-area textarea {
+        background: rgba(10, 6, 16, 0.5) !important;
+        border: 1px solid rgba(156, 39, 176, 0.1);
+        color: #c8b8e8;
+    }
+
+    body.theme-space .clear-btn {
+        background: rgba(20, 8, 32, 0.5) !important;
+        border: 1px solid rgba(156, 39, 176, 0.1);
+        color: #9c27b0;
+    }
+
+        body.theme-space .clear-btn:hover {
+            background: rgba(36, 16, 48, 0.6) !important;
+        }
+
+    body.theme-space button {
+        background: rgba(20, 8, 32, 0.5) !important;
+        border: 1px solid rgba(156, 39, 176, 0.1);
+        color: #b39ddb;
+    }
+
+        body.theme-space button:hover {
+            background: rgba(36, 16, 48, 0.6) !important;
+        }
+
+    body.theme-space .auto-bake-toggle .slider {
+        background-color: rgba(20, 8, 32, 0.5) !important;
+        border: 1px solid rgba(156, 39, 176, 0.1);
+    }
+
+    body.theme-space .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(156, 39, 176, 0.5) !important;
+    }
+
+    body.theme-space .log-area {
+        background: rgba(10, 6, 16, 0.4) !important;
+        border: 1px solid rgba(156, 39, 176, 0.1);
+    }
+
+    body.theme-space .log-entry.success {
+        color: #b39ddb;
+    }
+
+    body.theme-space .log-entry.error {
+        color: #9c27b0;
+    }
+
+    body.theme-space .log-entry.info {
+        color: #ce93d8;
+    }
+
+    body.theme-space ::-webkit-scrollbar-thumb {
+        background: rgba(156, 39, 176, 0.3);
+    }
+
+        body.theme-space ::-webkit-scrollbar-thumb:hover {
+            background: rgba(156, 39, 176, 0.6);
+        }
+
+    body.theme-space .theme-selector select {
+        background: rgba(10, 6, 16, 0.5) !important;
+        border-color: rgba(156, 39, 176, 0.1);
+        color: #c8b8e8;
+    }
+
+/* Matrix */
+body.theme-matrix {
+    background: linear-gradient(135deg, #000a00, #001a00, #000a00) !important;
+}
+
+    body.theme-matrix header {
+        background: rgba(0, 26, 0, 0.7) !important;
+        border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    }
+
+        body.theme-matrix header h1 {
+            color: #00ff41;
+            text-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+        }
+
+        body.theme-matrix header p {
+            color: #00cc33;
+        }
+
+    body.theme-matrix .operations-panel,
+    body.theme-matrix .recipe-panel {
+        background: rgba(0, 13, 0, 0.7) !important;
+        border-right: 1px solid rgba(0, 255, 65, 0.15);
+    }
+
+    body.theme-matrix .io-panel {
+        background: rgba(0, 10, 0, 0.7) !important;
+    }
+
+        body.theme-matrix .recipe-panel h3,
+        body.theme-matrix .operations-panel h3,
+        body.theme-matrix .io-panel h3 {
+            color: #00ff41;
+        }
+
+    body.theme-matrix .operation-item {
+        background: rgba(0, 26, 0, 0.4) !important;
+        border-left: 2px solid rgba(0, 255, 65, 0.15);
+    }
+
+        body.theme-matrix .operation-item:hover {
+            background: rgba(0, 42, 0, 0.5) !important;
+            border-left-color: #00ff41;
+        }
+
+    body.theme-matrix .op-name {
+        color: #00cc33;
+    }
+
+    body.theme-matrix .op-desc {
+        color: #006600;
+    }
+
+    body.theme-matrix .recipe-step {
+        background: rgba(0, 26, 0, 0.4) !important;
+        border: 1px solid rgba(0, 255, 65, 0.1);
+    }
+
+        body.theme-matrix .recipe-step:hover {
+            background: rgba(0, 42, 0, 0.5) !important;
+        }
+
+    body.theme-matrix .step-number {
+        color: #00ff41;
+    }
+
+    body.theme-matrix .step-name {
+        color: #00cc33;
+    }
+
+    body.theme-matrix .step-params label {
+        color: #006600;
+    }
+
+        body.theme-matrix .step-params label .param-label {
+            color: #006600;
+        }
+
+    body.theme-matrix .step-params input[type="text"],
+    body.theme-matrix .step-params input[type="number"],
+    body.theme-matrix .step-params select {
+        background: rgba(0, 10, 0, 0.5) !important;
+        border: 1px solid rgba(0, 255, 65, 0.1);
+        color: #00ff41;
+    }
+
+        body.theme-matrix .step-params input[type="text"]:focus,
+        body.theme-matrix .step-params input[type="number"]:focus,
+        body.theme-matrix .step-params select:focus {
+            border-color: rgba(0, 255, 65, 0.4);
+        }
+
+    body.theme-matrix .input-area textarea,
+    body.theme-matrix .output-area textarea {
+        background: rgba(0, 10, 0, 0.5) !important;
+        border: 1px solid rgba(0, 255, 65, 0.1);
+        color: #00ff41;
+    }
+
+    body.theme-matrix .clear-btn {
+        background: rgba(0, 26, 0, 0.5) !important;
+        border: 1px solid rgba(0, 255, 65, 0.1);
+        color: #00ff41;
+    }
+
+        body.theme-matrix .clear-btn:hover {
+            background: rgba(0, 42, 0, 0.6) !important;
+        }
+
+    body.theme-matrix button {
+        background: rgba(0, 26, 0, 0.5) !important;
+        border: 1px solid rgba(0, 255, 65, 0.1);
+        color: #00cc33;
+    }
+
+        body.theme-matrix button:hover {
+            background: rgba(0, 42, 0, 0.6) !important;
+        }
+
+    body.theme-matrix .auto-bake-toggle .slider {
+        background-color: rgba(0, 26, 0, 0.5) !important;
+        border: 1px solid rgba(0, 255, 65, 0.1);
+    }
+
+    body.theme-matrix .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(0, 255, 65, 0.5) !important;
+    }
+
+    body.theme-matrix .log-area {
+        background: rgba(0, 10, 0, 0.4) !important;
+        border: 1px solid rgba(0, 255, 65, 0.1);
+    }
+
+    body.theme-matrix .log-entry.success {
+        color: #00ff41;
+    }
+
+    body.theme-matrix .log-entry.error {
+        color: #00cc33;
+    }
+
+    body.theme-matrix .log-entry.info {
+        color: #00ff41;
+    }
+
+    body.theme-matrix ::-webkit-scrollbar-thumb {
+        background: rgba(0, 255, 65, 0.3);
+    }
+
+        body.theme-matrix ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 65, 0.6);
+        }
+
+    body.theme-matrix .theme-selector select {
+        background: rgba(0, 10, 0, 0.5) !important;
+        border-color: rgba(0, 255, 65, 0.1);
+        color: #00ff41;
+    }
+
+/* Mint */
+body.theme-mint {
+    background: linear-gradient(135deg, #0a1515, #142a25, #0a1515) !important;
+}
+
+    body.theme-mint header {
+        background: rgba(20, 42, 37, 0.7) !important;
+        border-bottom: 1px solid rgba(77, 208, 176, 0.2);
+    }
+
+        body.theme-mint header h1 {
+            color: #4dd0b0;
+            text-shadow: 0 0 30px rgba(77, 208, 176, 0.3);
+        }
+
+        body.theme-mint header p {
+            color: #80cbc4;
+        }
+
+    body.theme-mint .operations-panel,
+    body.theme-mint .recipe-panel {
+        background: rgba(15, 31, 26, 0.7) !important;
+        border-right: 1px solid rgba(77, 208, 176, 0.15);
+    }
+
+    body.theme-mint .io-panel {
+        background: rgba(10, 21, 21, 0.7) !important;
+    }
+
+        body.theme-mint .recipe-panel h3,
+        body.theme-mint .operations-panel h3,
+        body.theme-mint .io-panel h3 {
+            color: #4dd0b0;
+        }
+
+    body.theme-mint .operation-item {
+        background: rgba(20, 42, 37, 0.4) !important;
+        border-left: 2px solid rgba(77, 208, 176, 0.15);
+    }
+
+        body.theme-mint .operation-item:hover {
+            background: rgba(31, 58, 53, 0.5) !important;
+            border-left-color: #4dd0b0;
+        }
+
+    body.theme-mint .op-name {
+        color: #80cbc4;
+    }
+
+    body.theme-mint .op-desc {
+        color: #5a8a7a;
+    }
+
+    body.theme-mint .recipe-step {
+        background: rgba(20, 42, 37, 0.4) !important;
+        border: 1px solid rgba(77, 208, 176, 0.1);
+    }
+
+        body.theme-mint .recipe-step:hover {
+            background: rgba(31, 58, 53, 0.5) !important;
+        }
+
+    body.theme-mint .step-number {
+        color: #4dd0b0;
+    }
+
+    body.theme-mint .step-name {
+        color: #80cbc4;
+    }
+
+    body.theme-mint .step-params label {
+        color: #5a8a7a;
+    }
+
+        body.theme-mint .step-params label .param-label {
+            color: #5a8a7a;
+        }
+
+    body.theme-mint .step-params input[type="text"],
+    body.theme-mint .step-params input[type="number"],
+    body.theme-mint .step-params select {
+        background: rgba(10, 21, 21, 0.5) !important;
+        border: 1px solid rgba(77, 208, 176, 0.1);
+        color: #b8e0d8;
+    }
+
+        body.theme-mint .step-params input[type="text"]:focus,
+        body.theme-mint .step-params input[type="number"]:focus,
+        body.theme-mint .step-params select:focus {
+            border-color: rgba(77, 208, 176, 0.4);
+        }
+
+    body.theme-mint .input-area textarea,
+    body.theme-mint .output-area textarea {
+        background: rgba(10, 21, 21, 0.5) !important;
+        border: 1px solid rgba(77, 208, 176, 0.1);
+        color: #b8e0d8;
+    }
+
+    body.theme-mint .clear-btn {
+        background: rgba(20, 42, 37, 0.5) !important;
+        border: 1px solid rgba(77, 208, 176, 0.1);
+        color: #4dd0b0;
+    }
+
+        body.theme-mint .clear-btn:hover {
+            background: rgba(31, 58, 53, 0.6) !important;
+        }
+
+    body.theme-mint button {
+        background: rgba(20, 42, 37, 0.5) !important;
+        border: 1px solid rgba(77, 208, 176, 0.1);
+        color: #80cbc4;
+    }
+
+        body.theme-mint button:hover {
+            background: rgba(31, 58, 53, 0.6) !important;
+        }
+
+    body.theme-mint .auto-bake-toggle .slider {
+        background-color: rgba(20, 42, 37, 0.5) !important;
+        border: 1px solid rgba(77, 208, 176, 0.1);
+    }
+
+    body.theme-mint .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(77, 208, 176, 0.5) !important;
+    }
+
+    body.theme-mint .log-area {
+        background: rgba(10, 21, 21, 0.4) !important;
+        border: 1px solid rgba(77, 208, 176, 0.1);
+    }
+
+    body.theme-mint .log-entry.success {
+        color: #4dd0b0;
+    }
+
+    body.theme-mint .log-entry.error {
+        color: #ef5350;
+    }
+
+    body.theme-mint .log-entry.info {
+        color: #80cbc4;
+    }
+
+    body.theme-mint ::-webkit-scrollbar-thumb {
+        background: rgba(77, 208, 176, 0.3);
+    }
+
+        body.theme-mint ::-webkit-scrollbar-thumb:hover {
+            background: rgba(77, 208, 176, 0.6);
+        }
+
+    body.theme-mint .theme-selector select {
+        background: rgba(10, 21, 21, 0.5) !important;
+        border-color: rgba(77, 208, 176, 0.1);
+        color: #b8e0d8;
+    }
+
+/* ===== NEW THEMES ===== */
+
+/* Lavender */
+body.theme-lavender {
+    background: linear-gradient(135deg, #1a0a1a, #2a1030, #1a0a1a) !important;
+}
+
+    body.theme-lavender header {
+        background: rgba(42, 16, 48, 0.7) !important;
+        border-bottom: 1px solid rgba(179, 136, 179, 0.2);
+    }
+
+        body.theme-lavender header h1 {
+            color: #b388b3;
+            text-shadow: 0 0 30px rgba(179, 136, 179, 0.3);
+        }
+
+        body.theme-lavender header p {
+            color: #c9a3c9;
+        }
+
+    body.theme-lavender .operations-panel,
+    body.theme-lavender .recipe-panel {
+        background: rgba(21, 10, 26, 0.7) !important;
+        border-right: 1px solid rgba(179, 136, 179, 0.15);
+    }
+
+    body.theme-lavender .io-panel {
+        background: rgba(26, 10, 26, 0.7) !important;
+    }
+
+        body.theme-lavender .recipe-panel h3,
+        body.theme-lavender .operations-panel h3,
+        body.theme-lavender .io-panel h3 {
+            color: #b388b3;
+        }
+
+    body.theme-lavender .operation-item {
+        background: rgba(42, 16, 48, 0.4) !important;
+        border-left: 2px solid rgba(179, 136, 179, 0.15);
+    }
+
+        body.theme-lavender .operation-item:hover {
+            background: rgba(58, 26, 64, 0.5) !important;
+            border-left-color: #b388b3;
+        }
+
+    body.theme-lavender .op-name {
+        color: #c9a3c9;
+    }
+
+    body.theme-lavender .op-desc {
+        color: #8a6a8a;
+    }
+
+    body.theme-lavender .recipe-step {
+        background: rgba(42, 16, 48, 0.4) !important;
+        border: 1px solid rgba(179, 136, 179, 0.1);
+    }
+
+        body.theme-lavender .recipe-step:hover {
+            background: rgba(58, 26, 64, 0.5) !important;
+        }
+
+    body.theme-lavender .step-number {
+        color: #b388b3;
+    }
+
+    body.theme-lavender .step-name {
+        color: #c9a3c9;
+    }
+
+    body.theme-lavender .step-params label {
+        color: #8a6a8a;
+    }
+
+        body.theme-lavender .step-params label .param-label {
+            color: #8a6a8a;
+        }
+
+    body.theme-lavender .step-params input[type="text"],
+    body.theme-lavender .step-params input[type="number"],
+    body.theme-lavender .step-params select {
+        background: rgba(26, 10, 26, 0.5) !important;
+        border: 1px solid rgba(179, 136, 179, 0.1);
+        color: #d4b8d4;
+    }
+
+        body.theme-lavender .step-params input[type="text"]:focus,
+        body.theme-lavender .step-params input[type="number"]:focus,
+        body.theme-lavender .step-params select:focus {
+            border-color: rgba(179, 136, 179, 0.4);
+        }
+
+    body.theme-lavender .input-area textarea,
+    body.theme-lavender .output-area textarea {
+        background: rgba(26, 10, 26, 0.5) !important;
+        border: 1px solid rgba(179, 136, 179, 0.1);
+        color: #d4b8d4;
+    }
+
+    body.theme-lavender .clear-btn {
+        background: rgba(42, 16, 48, 0.5) !important;
+        border: 1px solid rgba(179, 136, 179, 0.1);
+        color: #b388b3;
+    }
+
+        body.theme-lavender .clear-btn:hover {
+            background: rgba(58, 26, 64, 0.6) !important;
+        }
+
+    body.theme-lavender button {
+        background: rgba(42, 16, 48, 0.5) !important;
+        border: 1px solid rgba(179, 136, 179, 0.1);
+        color: #c9a3c9;
+    }
+
+        body.theme-lavender button:hover {
+            background: rgba(58, 26, 64, 0.6) !important;
+        }
+
+    body.theme-lavender .auto-bake-toggle .slider {
+        background-color: rgba(42, 16, 48, 0.5) !important;
+        border: 1px solid rgba(179, 136, 179, 0.1);
+    }
+
+    body.theme-lavender .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(179, 136, 179, 0.5) !important;
+    }
+
+    body.theme-lavender .log-area {
+        background: rgba(26, 10, 26, 0.4) !important;
+        border: 1px solid rgba(179, 136, 179, 0.1);
+    }
+
+    body.theme-lavender .log-entry.success {
+        color: #c9a3c9;
+    }
+
+    body.theme-lavender .log-entry.error {
+        color: #b388b3;
+    }
+
+    body.theme-lavender .log-entry.info {
+        color: #d4b8d4;
+    }
+
+    body.theme-lavender ::-webkit-scrollbar-thumb {
+        background: rgba(179, 136, 179, 0.3);
+    }
+
+        body.theme-lavender ::-webkit-scrollbar-thumb:hover {
+            background: rgba(179, 136, 179, 0.6);
+        }
+
+    body.theme-lavender .theme-selector select {
+        background: rgba(26, 10, 26, 0.5) !important;
+        border-color: rgba(179, 136, 179, 0.1);
+        color: #d4b8d4;
+    }
+
+/* Sakura */
+body.theme-sakura {
+    background: linear-gradient(135deg, #1a0a12, #2a1020, #1a0a12) !important;
+}
+
+    body.theme-sakura header {
+        background: rgba(42, 16, 32, 0.7) !important;
+        border-bottom: 1px solid rgba(255, 123, 156, 0.2);
+    }
+
+        body.theme-sakura header h1 {
+            color: #ff7b9c;
+            text-shadow: 0 0 30px rgba(255, 123, 156, 0.3);
+        }
+
+        body.theme-sakura header p {
+            color: #ff9bb0;
+        }
+
+    body.theme-sakura .operations-panel,
+    body.theme-sakura .recipe-panel {
+        background: rgba(21, 10, 18, 0.7) !important;
+        border-right: 1px solid rgba(255, 123, 156, 0.15);
+    }
+
+    body.theme-sakura .io-panel {
+        background: rgba(26, 10, 18, 0.7) !important;
+    }
+
+        body.theme-sakura .recipe-panel h3,
+        body.theme-sakura .operations-panel h3,
+        body.theme-sakura .io-panel h3 {
+            color: #ff7b9c;
+        }
+
+    body.theme-sakura .operation-item {
+        background: rgba(42, 16, 32, 0.4) !important;
+        border-left: 2px solid rgba(255, 123, 156, 0.15);
+    }
+
+        body.theme-sakura .operation-item:hover {
+            background: rgba(58, 26, 48, 0.5) !important;
+            border-left-color: #ff7b9c;
+        }
+
+    body.theme-sakura .op-name {
+        color: #ff9bb0;
+    }
+
+    body.theme-sakura .op-desc {
+        color: #a06a7a;
+    }
+
+    body.theme-sakura .recipe-step {
+        background: rgba(42, 16, 32, 0.4) !important;
+        border: 1px solid rgba(255, 123, 156, 0.1);
+    }
+
+        body.theme-sakura .recipe-step:hover {
+            background: rgba(58, 26, 48, 0.5) !important;
+        }
+
+    body.theme-sakura .step-number {
+        color: #ff7b9c;
+    }
+
+    body.theme-sakura .step-name {
+        color: #ff9bb0;
+    }
+
+    body.theme-sakura .step-params label {
+        color: #a06a7a;
+    }
+
+        body.theme-sakura .step-params label .param-label {
+            color: #a06a7a;
+        }
+
+    body.theme-sakura .step-params input[type="text"],
+    body.theme-sakura .step-params input[type="number"],
+    body.theme-sakura .step-params select {
+        background: rgba(26, 10, 18, 0.5) !important;
+        border: 1px solid rgba(255, 123, 156, 0.1);
+        color: #f0c8d8;
+    }
+
+        body.theme-sakura .step-params input[type="text"]:focus,
+        body.theme-sakura .step-params input[type="number"]:focus,
+        body.theme-sakura .step-params select:focus {
+            border-color: rgba(255, 123, 156, 0.4);
+        }
+
+    body.theme-sakura .input-area textarea,
+    body.theme-sakura .output-area textarea {
+        background: rgba(26, 10, 18, 0.5) !important;
+        border: 1px solid rgba(255, 123, 156, 0.1);
+        color: #f0c8d8;
+    }
+
+    body.theme-sakura .clear-btn {
+        background: rgba(42, 16, 32, 0.5) !important;
+        border: 1px solid rgba(255, 123, 156, 0.1);
+        color: #ff7b9c;
+    }
+
+        body.theme-sakura .clear-btn:hover {
+            background: rgba(58, 26, 48, 0.6) !important;
+        }
+
+    body.theme-sakura button {
+        background: rgba(42, 16, 32, 0.5) !important;
+        border: 1px solid rgba(255, 123, 156, 0.1);
+        color: #ff9bb0;
+    }
+
+        body.theme-sakura button:hover {
+            background: rgba(58, 26, 48, 0.6) !important;
+        }
+
+    body.theme-sakura .auto-bake-toggle .slider {
+        background-color: rgba(42, 16, 32, 0.5) !important;
+        border: 1px solid rgba(255, 123, 156, 0.1);
+    }
+
+    body.theme-sakura .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(255, 123, 156, 0.5) !important;
+    }
+
+    body.theme-sakura .log-area {
+        background: rgba(26, 10, 18, 0.4) !important;
+        border: 1px solid rgba(255, 123, 156, 0.1);
+    }
+
+    body.theme-sakura .log-entry.success {
+        color: #ff9bb0;
+    }
+
+    body.theme-sakura .log-entry.error {
+        color: #ff7b9c;
+    }
+
+    body.theme-sakura .log-entry.info {
+        color: #f0c8d8;
+    }
+
+    body.theme-sakura ::-webkit-scrollbar-thumb {
+        background: rgba(255, 123, 156, 0.3);
+    }
+
+        body.theme-sakura ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 123, 156, 0.6);
+        }
+
+    body.theme-sakura .theme-selector select {
+        background: rgba(26, 10, 18, 0.5) !important;
+        border-color: rgba(255, 123, 156, 0.1);
+        color: #f0c8d8;
+    }
+
+/* Forest */
+body.theme-forest {
+    background: linear-gradient(135deg, #0a120a, #102010, #0a120a) !important;
+}
+
+    body.theme-forest header {
+        background: rgba(16, 32, 16, 0.7) !important;
+        border-bottom: 1px solid rgba(76, 175, 80, 0.2);
+    }
+
+        body.theme-forest header h1 {
+            color: #4caf50;
+            text-shadow: 0 0 30px rgba(76, 175, 80, 0.3);
+        }
+
+        body.theme-forest header p {
+            color: #66bb6a;
+        }
+
+    body.theme-forest .operations-panel,
+    body.theme-forest .recipe-panel {
+        background: rgba(10, 21, 10, 0.7) !important;
+        border-right: 1px solid rgba(76, 175, 80, 0.15);
+    }
+
+    body.theme-forest .io-panel {
+        background: rgba(10, 18, 10, 0.7) !important;
+    }
+
+        body.theme-forest .recipe-panel h3,
+        body.theme-forest .operations-panel h3,
+        body.theme-forest .io-panel h3 {
+            color: #4caf50;
+        }
+
+    body.theme-forest .operation-item {
+        background: rgba(16, 32, 16, 0.4) !important;
+        border-left: 2px solid rgba(76, 175, 80, 0.15);
+    }
+
+        body.theme-forest .operation-item:hover {
+            background: rgba(26, 48, 26, 0.5) !important;
+            border-left-color: #4caf50;
+        }
+
+    body.theme-forest .op-name {
+        color: #66bb6a;
+    }
+
+    body.theme-forest .op-desc {
+        color: #4a6a4a;
+    }
+
+    body.theme-forest .recipe-step {
+        background: rgba(16, 32, 16, 0.4) !important;
+        border: 1px solid rgba(76, 175, 80, 0.1);
+    }
+
+        body.theme-forest .recipe-step:hover {
+            background: rgba(26, 48, 26, 0.5) !important;
+        }
+
+    body.theme-forest .step-number {
+        color: #4caf50;
+    }
+
+    body.theme-forest .step-name {
+        color: #66bb6a;
+    }
+
+    body.theme-forest .step-params label {
+        color: #4a6a4a;
+    }
+
+        body.theme-forest .step-params label .param-label {
+            color: #4a6a4a;
+        }
+
+    body.theme-forest .step-params input[type="text"],
+    body.theme-forest .step-params input[type="number"],
+    body.theme-forest .step-params select {
+        background: rgba(10, 18, 10, 0.5) !important;
+        border: 1px solid rgba(76, 175, 80, 0.1);
+        color: #b8d4b8;
+    }
+
+        body.theme-forest .step-params input[type="text"]:focus,
+        body.theme-forest .step-params input[type="number"]:focus,
+        body.theme-forest .step-params select:focus {
+            border-color: rgba(76, 175, 80, 0.4);
+        }
+
+    body.theme-forest .input-area textarea,
+    body.theme-forest .output-area textarea {
+        background: rgba(10, 18, 10, 0.5) !important;
+        border: 1px solid rgba(76, 175, 80, 0.1);
+        color: #b8d4b8;
+    }
+
+    body.theme-forest .clear-btn {
+        background: rgba(16, 32, 16, 0.5) !important;
+        border: 1px solid rgba(76, 175, 80, 0.1);
+        color: #4caf50;
+    }
+
+        body.theme-forest .clear-btn:hover {
+            background: rgba(26, 48, 26, 0.6) !important;
+        }
+
+    body.theme-forest button {
+        background: rgba(16, 32, 16, 0.5) !important;
+        border: 1px solid rgba(76, 175, 80, 0.1);
+        color: #66bb6a;
+    }
+
+        body.theme-forest button:hover {
+            background: rgba(26, 48, 26, 0.6) !important;
+        }
+
+    body.theme-forest .auto-bake-toggle .slider {
+        background-color: rgba(16, 32, 16, 0.5) !important;
+        border: 1px solid rgba(76, 175, 80, 0.1);
+    }
+
+    body.theme-forest .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(76, 175, 80, 0.5) !important;
+    }
+
+    body.theme-forest .log-area {
+        background: rgba(10, 18, 10, 0.4) !important;
+        border: 1px solid rgba(76, 175, 80, 0.1);
+    }
+
+    body.theme-forest .log-entry.success {
+        color: #66bb6a;
+    }
+
+    body.theme-forest .log-entry.error {
+        color: #4caf50;
+    }
+
+    body.theme-forest .log-entry.info {
+        color: #b8d4b8;
+    }
+
+    body.theme-forest ::-webkit-scrollbar-thumb {
+        background: rgba(76, 175, 80, 0.3);
+    }
+
+        body.theme-forest ::-webkit-scrollbar-thumb:hover {
+            background: rgba(76, 175, 80, 0.6);
+        }
+
+    body.theme-forest .theme-selector select {
+        background: rgba(10, 18, 10, 0.5) !important;
+        border-color: rgba(76, 175, 80, 0.1);
+        color: #b8d4b8;
+    }
+
+/* Gold */
+body.theme-gold {
+    background: linear-gradient(135deg, #1a140a, #2a2010, #1a140a) !important;
+}
+
+    body.theme-gold header {
+        background: rgba(42, 32, 16, 0.7) !important;
+        border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+    }
+
+        body.theme-gold header h1 {
+            color: #ffc107;
+            text-shadow: 0 0 30px rgba(255, 193, 7, 0.3);
+        }
+
+        body.theme-gold header p {
+            color: #ffd54f;
+        }
+
+    body.theme-gold .operations-panel,
+    body.theme-gold .recipe-panel {
+        background: rgba(26, 18, 10, 0.7) !important;
+        border-right: 1px solid rgba(255, 193, 7, 0.15);
+    }
+
+    body.theme-gold .io-panel {
+        background: rgba(26, 20, 10, 0.7) !important;
+    }
+
+        body.theme-gold .recipe-panel h3,
+        body.theme-gold .operations-panel h3,
+        body.theme-gold .io-panel h3 {
+            color: #ffc107;
+        }
+
+    body.theme-gold .operation-item {
+        background: rgba(42, 32, 16, 0.4) !important;
+        border-left: 2px solid rgba(255, 193, 7, 0.15);
+    }
+
+        body.theme-gold .operation-item:hover {
+            background: rgba(58, 42, 26, 0.5) !important;
+            border-left-color: #ffc107;
+        }
+
+    body.theme-gold .op-name {
+        color: #ffd54f;
+    }
+
+    body.theme-gold .op-desc {
+        color: #8a7a5a;
+    }
+
+    body.theme-gold .recipe-step {
+        background: rgba(42, 32, 16, 0.4) !important;
+        border: 1px solid rgba(255, 193, 7, 0.1);
+    }
+
+        body.theme-gold .recipe-step:hover {
+            background: rgba(58, 42, 26, 0.5) !important;
+        }
+
+    body.theme-gold .step-number {
+        color: #ffc107;
+    }
+
+    body.theme-gold .step-name {
+        color: #ffd54f;
+    }
+
+    body.theme-gold .step-params label {
+        color: #8a7a5a;
+    }
+
+        body.theme-gold .step-params label .param-label {
+            color: #8a7a5a;
+        }
+
+    body.theme-gold .step-params input[type="text"],
+    body.theme-gold .step-params input[type="number"],
+    body.theme-gold .step-params select {
+        background: rgba(26, 20, 10, 0.5) !important;
+        border: 1px solid rgba(255, 193, 7, 0.1);
+        color: #e8d8b8;
+    }
+
+        body.theme-gold .step-params input[type="text"]:focus,
+        body.theme-gold .step-params input[type="number"]:focus,
+        body.theme-gold .step-params select:focus {
+            border-color: rgba(255, 193, 7, 0.4);
+        }
+
+    body.theme-gold .input-area textarea,
+    body.theme-gold .output-area textarea {
+        background: rgba(26, 20, 10, 0.5) !important;
+        border: 1px solid rgba(255, 193, 7, 0.1);
+        color: #e8d8b8;
+    }
+
+    body.theme-gold .clear-btn {
+        background: rgba(42, 32, 16, 0.5) !important;
+        border: 1px solid rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+
+        body.theme-gold .clear-btn:hover {
+            background: rgba(58, 42, 26, 0.6) !important;
+        }
+
+    body.theme-gold button {
+        background: rgba(42, 32, 16, 0.5) !important;
+        border: 1px solid rgba(255, 193, 7, 0.1);
+        color: #ffd54f;
+    }
+
+        body.theme-gold button:hover {
+            background: rgba(58, 42, 26, 0.6) !important;
+        }
+
+    body.theme-gold .auto-bake-toggle .slider {
+        background-color: rgba(42, 32, 16, 0.5) !important;
+        border: 1px solid rgba(255, 193, 7, 0.1);
+    }
+
+    body.theme-gold .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(255, 193, 7, 0.5) !important;
+    }
+
+    body.theme-gold .log-area {
+        background: rgba(26, 20, 10, 0.4) !important;
+        border: 1px solid rgba(255, 193, 7, 0.1);
+    }
+
+    body.theme-gold .log-entry.success {
+        color: #ffd54f;
+    }
+
+    body.theme-gold .log-entry.error {
+        color: #ffc107;
+    }
+
+    body.theme-gold .log-entry.info {
+        color: #e8d8b8;
+    }
+
+    body.theme-gold ::-webkit-scrollbar-thumb {
+        background: rgba(255, 193, 7, 0.3);
+    }
+
+        body.theme-gold ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 193, 7, 0.6);
+        }
+
+    body.theme-gold .theme-selector select {
+        background: rgba(26, 20, 10, 0.5) !important;
+        border-color: rgba(255, 193, 7, 0.1);
+        color: #e8d8b8;
+    }
+
+/* Night */
+body.theme-night {
+    background: linear-gradient(135deg, #05050a, #0a0a18, #05050a) !important;
+}
+
+    body.theme-night header {
+        background: rgba(10, 10, 24, 0.7) !important;
+        border-bottom: 1px solid rgba(124, 124, 255, 0.2);
+    }
+
+        body.theme-night header h1 {
+            color: #7c7cff;
+            text-shadow: 0 0 30px rgba(124, 124, 255, 0.3);
+        }
+
+        body.theme-night header p {
+            color: #9999ff;
+        }
+
+    body.theme-night .operations-panel,
+    body.theme-night .recipe-panel {
+        background: rgba(7, 7, 16, 0.7) !important;
+        border-right: 1px solid rgba(124, 124, 255, 0.15);
+    }
+
+    body.theme-night .io-panel {
+        background: rgba(5, 5, 10, 0.7) !important;
+    }
+
+        body.theme-night .recipe-panel h3,
+        body.theme-night .operations-panel h3,
+        body.theme-night .io-panel h3 {
+            color: #7c7cff;
+        }
+
+    body.theme-night .operation-item {
+        background: rgba(10, 10, 24, 0.4) !important;
+        border-left: 2px solid rgba(124, 124, 255, 0.15);
+    }
+
+        body.theme-night .operation-item:hover {
+            background: rgba(20, 20, 40, 0.5) !important;
+            border-left-color: #7c7cff;
+        }
+
+    body.theme-night .op-name {
+        color: #9999ff;
+    }
+
+    body.theme-night .op-desc {
+        color: #5a5a7a;
+    }
+
+    body.theme-night .recipe-step {
+        background: rgba(10, 10, 24, 0.4) !important;
+        border: 1px solid rgba(124, 124, 255, 0.1);
+    }
+
+        body.theme-night .recipe-step:hover {
+            background: rgba(20, 20, 40, 0.5) !important;
+        }
+
+    body.theme-night .step-number {
+        color: #7c7cff;
+    }
+
+    body.theme-night .step-name {
+        color: #9999ff;
+    }
+
+    body.theme-night .step-params label {
+        color: #5a5a7a;
+    }
+
+        body.theme-night .step-params label .param-label {
+            color: #5a5a7a;
+        }
+
+    body.theme-night .step-params input[type="text"],
+    body.theme-night .step-params input[type="number"],
+    body.theme-night .step-params select {
+        background: rgba(5, 5, 10, 0.5) !important;
+        border: 1px solid rgba(124, 124, 255, 0.1);
+        color: #c8c8e8;
+    }
+
+        body.theme-night .step-params input[type="text"]:focus,
+        body.theme-night .step-params input[type="number"]:focus,
+        body.theme-night .step-params select:focus {
+            border-color: rgba(124, 124, 255, 0.4);
+        }
+
+    body.theme-night .input-area textarea,
+    body.theme-night .output-area textarea {
+        background: rgba(5, 5, 10, 0.5) !important;
+        border: 1px solid rgba(124, 124, 255, 0.1);
+        color: #c8c8e8;
+    }
+
+    body.theme-night .clear-btn {
+        background: rgba(10, 10, 24, 0.5) !important;
+        border: 1px solid rgba(124, 124, 255, 0.1);
+        color: #7c7cff;
+    }
+
+        body.theme-night .clear-btn:hover {
+            background: rgba(20, 20, 40, 0.6) !important;
+        }
+
+    body.theme-night button {
+        background: rgba(10, 10, 24, 0.5) !important;
+        border: 1px solid rgba(124, 124, 255, 0.1);
+        color: #9999ff;
+    }
+
+        body.theme-night button:hover {
+            background: rgba(20, 20, 40, 0.6) !important;
+        }
+
+    body.theme-night .auto-bake-toggle .slider {
+        background-color: rgba(10, 10, 24, 0.5) !important;
+        border: 1px solid rgba(124, 124, 255, 0.1);
+    }
+
+    body.theme-night .auto-bake-toggle input:checked + .slider {
+        background-color: rgba(124, 124, 255, 0.5) !important;
+    }
+
+    body.theme-night .log-area {
+        background: rgba(5, 5, 10, 0.4) !important;
+        border: 1px solid rgba(124, 124, 255, 0.1);
+    }
+
+    body.theme-night .log-entry.success {
+        color: #9999ff;
+    }
+
+    body.theme-night .log-entry.error {
+        color: #7c7cff;
+    }
+
+    body.theme-night .log-entry.info {
+        color: #c8c8e8;
+    }
+
+    body.theme-night ::-webkit-scrollbar-thumb {
+        background: rgba(124, 124, 255, 0.3);
+    }
+
+        body.theme-night ::-webkit-scrollbar-thumb:hover {
+            background: rgba(124, 124, 255, 0.6);
+        }
+
+    body.theme-night .theme-selector select {
+        background: rgba(5, 5, 10, 0.5) !important;
+        border-color: rgba(124, 124, 255, 0.1);
+        color: #c8c8e8;
+    }
